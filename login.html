@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Legendary Octo System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .remember-forgot input[type="checkbox"] {
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .remember-forgot label {
+            color: #333;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .remember-forgot a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .remember-forgot a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .signup-link {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background-color: #fee;
+            color: #c00;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .success-message {
+            background-color: #efe;
+            color: #060;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .login-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .login-btn.loading .spinner {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>🐙 Legendary Octo</h1>
+            <p>Welcome back to the system</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Enter your email" 
+                    required
+                    autocomplete="email"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Enter your password" 
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    Remember me
+                </label>
+                <a href="#" onclick="handleForgotPassword(event)">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span id="btnText">Sign In</span>
+                <div class="loading-spinner spinner" id="spinner"></div>
+            </button>
+        </form>
+
+        <div class="signup-link">
+            Don't have an account? <a href="#" onclick="handleSignUp(event)">Sign up here</a>
+        </div>
+    </div>
+
+    <script>
+        // Email validation regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Initialize form
+        document.addEventListener('DOMContentLoaded', function() {
+            const email = localStorage.getItem('rememberedEmail');
+            if (email) {
+                document.getElementById('email').value = email;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+
+        /**
+         * Handle login form submission
+         * @param {Event} event - Form submission event
+         */
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const loginBtn = document.getElementById('loginBtn');
+            const btnText = document.getElementById('btnText');
+
+            // Clear messages
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+            errorMessage.textContent = '';
+            successMessage.textContent = '';
+
+            // Validation
+            if (!email || !password) {
+                showError('Please fill in all fields', errorMessage);
+                return;
+            }
+
+            if (!emailRegex.test(email)) {
+                showError('Please enter a valid email address', errorMessage);
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters', errorMessage);
+                return;
+            }
+
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.classList.add('loading');
+            btnText.textContent = 'Signing in...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Remember email if checkbox is checked
+                if (rememberMe) {
+                    localStorage.setItem('rememberedEmail', email);
+                } else {
+                    localStorage.removeItem('rememberedEmail');
+                }
+
+                // Simulate successful login
+                showSuccess('Login successful! Redirecting...', successMessage);
+                
+                // Reset button state
+                loginBtn.disabled = false;
+                loginBtn.classList.remove('loading');
+                btnText.textContent = 'Sign In';
+
+                // Redirect after a delay
+                setTimeout(() => {
+                    console.log('User logged in:', { email, rememberMe });
+                    // In a real application, redirect to dashboard
+                    // window.location.href = '/dashboard';
+                    alert('Login successful! In a real app, you would be redirected to the dashboard.');
+                }, 1500);
+            }, 1500);
+        }
+
+        /**
+         * Handle forgot password link
+         * @param {Event} event - Click event
+         */
+        function handleForgotPassword(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            
+            if (!email) {
+                showError('Please enter your email address first', document.getElementById('errorMessage'));
+                return;
+            }
+
+            if (!emailRegex.test(email)) {
+                showError('Please enter a valid email address', document.getElementById('errorMessage'));
+                return;
+            }
+
+            alert(`Password reset link sent to ${email}`);
+            console.log('Password reset requested for:', email);
+        }
+
+        /**
+         * Handle sign up link
+         * @param {Event} event - Click event
+         */
+        function handleSignUp(event) {
+            event.preventDefault();
+            alert('Redirecting to sign up page...');
+            console.log('Sign up requested');
+            // In a real application, redirect to signup page
+            // window.location.href = '/signup';
+        }
+
+        /**
+         * Display error message
+         * @param {string} message - Error message to display
+         * @param {HTMLElement} element - Error message element
+         */
+        function showError(message, element) {
+            element.textContent = message;
+            element.classList.add('show');
+            element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        /**
+         * Display success message
+         * @param {string} message - Success message to display
+         * @param {HTMLElement} element - Success message element
+         */
+        function showSuccess(message, element) {
+            element.textContent = message;
+            element.classList.add('show');
+            element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        /**
+         * Real-time email validation
+         */
+        document.getElementById('email').addEventListener('change', function() {
+            const email = this.value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (email && !emailRegex.test(email)) {
+                showError('Invalid email format', errorMessage);
+            } else {
+                errorMessage.classList.remove('show');
+            }
+        });
+
+        /**
+         * Password strength indicator
+         */
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strength = calculatePasswordStrength(password);
+            console.log('Password strength:', strength);
+        });
+
+        /**
+         * Calculate password strength
+         * @param {string} password - Password to check
+         * @returns {string} Strength level: weak, medium, strong
+         */
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^a-zA-Z\d]/.test(password)) strength++;
+            
+            if (strength <= 1) return 'weak';
+            if (strength <= 2) return 'medium';
+            return 'strong';
+        }
+
+        /**
+         * Enter key support for password field
+         */
+        document.getElementById('password').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        /**
+         * Clear messages on input
+         */
+        document.getElementById('email').addEventListener('input', function() {
+            document.getElementById('errorMessage').classList.remove('show');
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            document.getElementById('errorMessage').classList.remove('show');
+        });
+    </script>
+</body>
+</html>
