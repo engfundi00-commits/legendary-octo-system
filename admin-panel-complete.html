@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #444;
+        }
+        nav a {
+            color: #fff;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background: #555;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #333;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin Panel</h1>
+    </header>
+    <nav>
+        <a href="#">Dashboard</a>
+        <a href="#">Users</a>
+        <a href="#">Settings</a>
+        <a href="#">Logout</a>
+    </nav>
+    <div class="container">
+        <h2>Welcome to the Admin Panel</h2>
+        <p>This is where you can manage your application.</p>
+        <h3>User Accounts</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="userTable">
+                <tr>
+                    <td>1</td>
+                    <td>John Doe</td>
+                    <td>john@example.com</td>
+                    <td><button onclick="deleteUser(1)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p>&copy; 2026 Admin Panel</p>
+    </footer>
+    <script>
+        function deleteUser(id) {
+            const row = document.querySelector(`tr[data-id='${id}']`);
+            if (row) {
+                row.remove();
+                alert('User deleted.');
+            }
+        }
+    </script>
+</body>
+</html>
